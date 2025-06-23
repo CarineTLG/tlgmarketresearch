@@ -312,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const programSelectorContainer = document.getElementById('program-selector-container');
+    programSelectorContainer.innerHTML = ''; // Clear any existing content
     const programDetailsContent = document.getElementById('program-details-content');
 
     const generateInclusionHTML = (items) => {
