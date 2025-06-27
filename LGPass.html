@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Competitor Feature Comparison</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f1f5f9;
+      color: #2d3748;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem;
+    }
+    .card {
+      background-color: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      transition: transform 0.3s ease-in-out;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+    h1 {
+      color: #1a202c;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+    .vega-embed-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 300px;
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <div class="container">
+    <header class="text-center mb-12 pt-8">
+      <h1 class="text-5xl font-extrabold mb-4 text-indigo-700">Competitor Feature Comparison</h1>
+      <p class="text-xl text-gray-700">Visualizing the implementation status of platform features</p>
+    </header>
+
+    <!-- Chart 1 -->
+    <section class="card">
+      <h2 class="text-3xl text-center mb-6">Feature Status Comparison</h2>
+      <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">
+        This chart shows how many features each company has implemented or not, using status indicators (✅ for implemented, ❌ for not).
+      </p>
+      <div id="chart1" class="vega-embed-wrapper"></div>
+    </section>
+
+    <!-- Chart 2 -->
+    <section class="card">
+      <h2 class="text-3xl text-center mb-6">Implementation Percentage</h2>
+      <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">
+        This visualization represents what percentage of total key features each company has implemented.
+      </p>
+      <div id="chart2" class="vega-embed-wrapper"></div>
+    </section>
+
+    <footer class="text-center text-gray-500 mt-12 py-6 border-t border-gray-300">
+      <p>&copy; 2025 YourLandLoans. All rights reserved.</p>
+      <p class="text-sm mt-2">Last updated: June 2025</p>
+    </footer>
+  </div>
+
+  <!-- Vega Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <script>
+    const chart1Spec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "data": {
+        "values": [
+          {"Feature Status": "✅", "Entity": "Competitor", "Count": 8},
+          {"Feature Status": "❌", "Entity": "Competitor", "Count": 4},
+          {"Feature Status": "✅", "Entity": "Us", "Count": 9},
+          {"Feature Status": "❌", "Entity": "Us", "Count": 3}
+        ]
+      },
+      "mark": {
+        "type": "bar",
+        "cornerRadius": 5
+      },
+      "encoding": {
+        "x": {"field": "Feature Status", "type": "nominal", "title": "Feature Status"},
+        "y": {"field": "Count", "type": "quantitative", "title": "Number of Features"},
+        "color": {"field": "Entity", "type": "nominal", "scale": {"range": ["#3b82f6", "#ef4444"]}},
+        "tooltip": [
+          {"field": "Feature Status", "type": "nominal"},
+          {"field": "Entity", "type": "nominal"},
+          {"field": "Count", "type": "quantitative"}
+        ]
+      },
+      "config": {
+        "axis": {"gridColor": "#e5e7eb"},
+        "legend": {"titleColor": "#4b5563"}
+      }
+    };
+
+    const chart2Spec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "data": {
+        "values": [
+          {"Entity": "Competitor", "Percentage of Features": 66.67},
+          {"Entity": "Us", "Percentage of Features": 75.0}
+        ]
+      },
+      "mark": {
+        "type": "bar",
+        "cornerRadius": 5
+      },
+      "encoding": {
+        "x": {"field": "Percentage of Features", "type": "quantitative", "title": "Percentage (%)", "axis": {"format": ".1f"}},
+        "y": {"field": "Entity", "type": "nominal", "title": "Company"},
+        "color": {"field": "Entity", "type": "nominal", "scale": {"range": ["#ef4444", "#3b82f6"]}},
+        "tooltip": [
+          {"field": "Entity", "type": "nominal"},
+          {"field": "Percentage of Features", "type": "quantitative", "format": ".1f"}
+        ]
+      },
+      "config": {
+        "axis": {"gridColor": "#e5e7eb"},
+        "legend": {"titleColor": "#4b5563"}
+      }
+    };
+
+    function embedChart(chartId, spec) {
+      vegaEmbed(`#${chartId}`, spec, {
+        actions: false,
+        renderer: "svg"
+      }).catch(err => {
+        console.error("Chart error:", err);
+        document.getElementById(chartId).innerHTML = `<p class="text-red-500">Failed to load chart.</p>`;
+      });
+    }
+
+    window.onload = () => {
+      embedChart("chart1", chart1Spec);
+      embedChart("chart2", chart2Spec);
+    };
+  </script>
+</body>
+</html>
