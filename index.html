@@ -146,6 +146,98 @@
         </footer>
     </div>
 <script>
+<!-- === Interactive Box: Gaps (paste anywhere inside <main> as a new section) === -->
+<section id="gaps" class="bg-white rounded-lg shadow-sm p-6 md:p-8">
+  <div class="flex items-center justify-between">
+    <h2 class="text-2xl md:text-3xl font-bold">Gaps vs. Competitors</h2>
+    <button
+      type="button"
+      class="group inline-flex items-center gap-2 text-sm font-semibold px-3 py-2 rounded-md border border-gray-200 hover:bg-gray-50"
+      data-accordion-toggle="#gaps-accordion"
+      aria-expanded="false"
+      aria-controls="gaps-accordion"
+    >
+      <span class="group-[aria-expanded=true]:hidden">Expand</span>
+      <span class="hidden group-[aria-expanded=true]:inline">Collapse</span>
+      <svg class="h-4 w-4 transition-transform group-[aria-expanded=true]:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
+      </svg>
+    </button>
+  </div>
+
+  <div id="gaps-accordion" class="mt-6 space-y-4 hidden">
+    <!-- Content & Delivery Gaps -->
+    <div class="border border-gray-200 rounded-lg overflow-hidden">
+      <button
+        class="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100"
+        data-accordion-toggle="#gaps-content"
+        aria-expanded="false"
+        aria-controls="gaps-content"
+      >
+        <span class="text-lg font-semibold">Content &amp; Delivery Gaps</span>
+        <svg class="h-4 w-4 transition-transform group-[aria-expanded=true]:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <div id="gaps-content" class="px-5 py-4 hidden">
+        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+          <li>Lack of <strong>bite-sized / micro-lessons</strong> (daily tips, short tasks, momentum nudges).</li>
+          <li>Limited <strong>self-paced flexibility</strong> (only DRSK or lead funnels).</li>
+          <li>Few or no <strong>niche specialisation tracks</strong> (e.g. geographic or vertical focus).</li>
+          <li>No <strong>live labs / micro-events</strong> (skills practice, roleplay, deal clinics).</li>
+          <li>Limited <strong>gamification &amp; progress tracking</strong> (badges, streaks, leaderboards).</li>
+          <li>Limited <strong>structured peer review / feedback</strong> mechanisms beyond coach calls.</li>
+          <li><strong>Weak alumni engagement</strong> post-completion.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tech Stack & Infrastructure Gaps -->
+    <div class="border border-gray-200 rounded-lg overflow-hidden">
+      <button
+        class="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100"
+        data-accordion-toggle="#gaps-tech"
+        aria-expanded="false"
+        aria-controls="gaps-tech"
+      >
+        <span class="text-lg font-semibold">Tech Stack &amp; Infrastructure Gaps</span>
+        <svg class="h-4 w-4 transition-transform group-[aria-expanded=true]:rotate-180" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <div id="gaps-tech" class="px-5 py-4 hidden">
+        <ul class="list-disc pl-6 space-y-2 text-gray-700">
+          <li><strong>Legacy content architecture</strong> (bundled video + PDFs, harder to modularise/update).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- === Minimal JS for the interactive box (paste anywhere after Tailwind is loaded; can be before existing script) === -->
+<script>
+(function () {
+  function toggleEl(targetSelector, trigger) {
+    const el = document.querySelector(targetSelector);
+    if (!el) return;
+    const isHidden = el.classList.contains('hidden');
+    el.classList.toggle('hidden');
+    if (trigger) trigger.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+  }
+
+  // Top-level expand/collapse button for the whole box
+  document.querySelectorAll('[data-accordion-toggle="#gaps-accordion"]').forEach(btn => {
+    btn.addEventListener('click', () => toggleEl('#gaps-accordion', btn));
+  });
+
+  // Inner accordions
+  document.querySelectorAll('[data-accordion-toggle]').forEach(btn => {
+    const sel = btn.getAttribute('data-accordion-toggle');
+    if (sel === '#gaps-accordion') return; // already handled above
+    btn.addEventListener('click', () => toggleEl(sel, btn));
+  });
+})();
+</script>
 document.addEventListener('DOMContentLoaded', () => {
 
     console.log('DOM Content Loaded. Script starting.');
